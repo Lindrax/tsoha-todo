@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{%block content%}
+<h2>new task</h2>
+<form action="/send" method="POST">
+    Task: <br>
+    <textarea name="task" rows="3" cols="40"></textarea>
+    <br>
+    <input type="submit" value="Send">
+    </form>
+{% endblock %}

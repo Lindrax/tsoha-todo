@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Your tasks</h2>
+<hr>
+{%for task in tasks%}
+{{ task.task }}
+<hr>
+{%endfor%}
+
+<a href="new"> New task</a>
+{% endblock %}
