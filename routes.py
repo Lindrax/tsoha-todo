@@ -53,6 +53,20 @@ def user():
     except:
         return render_template("index.html")
 
+@app.route("/add")
+def add():
+    return render_template("add.html")
+
+@app.route("/task", methods = ["POST"])
+def task():
+    task=request.form["task"]
+    try:
+        user_services.add_task(task, session["id"])
+        return redirect("/user")
+    except:
+        return redirect("/user")
+
+
 
 
 

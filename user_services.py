@@ -42,5 +42,14 @@ class user_services():
                     return True
             except:
                 return False
-
+            
+    @staticmethod
+    def add_task(task, user_id):
+        try:
+            sql="insert into tasks (task, user_id) values (:task, :user_id)"
+            db.session.execute(text(sql), {"task":task, "user_id":user_id})
+            db.session.commit()
+        
+        except:
+            return False
 #todo tietokantakomennot
