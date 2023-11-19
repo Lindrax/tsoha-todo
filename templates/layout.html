@@ -1,10 +1,12 @@
 <title>Axelin - {% block title %}{% endblock %}</title>
 <h1>Axelin sovellus</h1>
 <a href="/">Start</a>
-<a href="/login">Login</a>
+{% if session.username %}
 <a href="/user">User</a>
+{%endif%}
 <hr>
 {% block content %}{% endblock %}
 <hr>
+{% if session.username %}
 <a href="/logout">Logout</a>
-Voit lähettää palautetta <a href="#">tästä</a>
+{%endif%}
