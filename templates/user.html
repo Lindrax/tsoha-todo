@@ -1,11 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
 <h2>Your tasks</h2>
+{% if session.username %}
+
 <hr>
 {%for task in tasks%}
 {{ task.task }}
 <hr>
 {%endfor%}
+{% else %}
+<a href="/index">Login</a>
 
 <a href="new"> New task</a>
+{%endif%}
 {% endblock %}

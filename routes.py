@@ -17,22 +17,27 @@ def login():
     password = request.form["password"]
     if user_services.check_user(username,password):
         session["username"] = username
+        session["id"] = user_services.get_id(username)
         return redirect("/")
     else:
         return redirect("/")
     
 @app.route("/logout")
 def logout():
-    del session["username"]
+    try:
+        del session["username"]
+        del session["id"]
+    except:
+        pass
     return redirect("/")
 
 @app.route("/user")
 def user():
-    tasks = user_services.get_tasks()
-    
-    
-    
-    return render_template("user.html", tasks=tasks)
+    try:
+        tasks = user_services.get_tasks(session["id"])
+        return render_template("user.html", tasks=tasks)
+    except:
+        return render_template("index.html")
 
 
 
