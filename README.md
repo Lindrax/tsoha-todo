@@ -1,4 +1,4 @@
-# Tsoha
+# Tsoha todo
 Tällä hetkellä sovellukseen pystyy luomaan käyttäjän, kirjautumaan, lisäämään tehtäviä ja merkitsemään niitä tehdyiksi sekä resetoimaan omat tehtävät.
 
 Käynnistysohjeet:
