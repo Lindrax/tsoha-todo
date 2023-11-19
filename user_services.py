@@ -1,11 +1,20 @@
 from db import db
 from sqlalchemy.sql import text
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 class user_services():
     def __init__(self):
         self.users=db.session.execute("select * from users")
 
+    @staticmethod
+    def create_user(name, password):
+        
+        hash_value=generate_password_hash(password)
+        sql="insert into users (name, password) values(:name, :password)"
+        db.session.execute(text(sql), {"name":name, "password":hash_value})
+        db.session.commit()
+            
     @staticmethod
     def get_tasks(user_id):
         sql="SELECT task FROM tasks where user_id=:user_id"
@@ -20,21 +29,18 @@ class user_services():
             return result[0]
         except:
             return []
-        
-        
-    
-    #def add_task(task, user):
-        sql="insert tasks (task, user_id) values (:task, :user)"
-        db.session.execute(text(sql), {task:task, user:user})
 
     @staticmethod
     def check_user(user, password):
         sql="select password from users where name =:user"
         result=db.session.execute(text(sql), {"user":user} ).fetchone()
-        try:
-            if result[0] == password:
-                return True
-        except:
+        if not result:
             return False
+        else:
+            try:
+                if check_password_hash(result.password, password):
+                    return True
+            except:
+                return False
 
 #todo tietokantakomennot

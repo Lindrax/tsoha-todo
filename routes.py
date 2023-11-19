@@ -22,6 +22,20 @@ def login():
     else:
         return redirect("/")
     
+@app.route("/new")
+def new():
+    return render_template("new.html")
+
+@app.route("/register", methods=["POST"])
+def register():
+    username = request.form["username"]
+    password = request.form["password"]
+    try:
+        user_services.create_user(username,password)
+        return redirect("/")
+    except:
+        return redirect("/register")
+    
 @app.route("/logout")
 def logout():
     try:

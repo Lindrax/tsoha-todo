@@ -1,10 +1,15 @@
 {% extends "layout.html" %}
-{%block content%}
-<h2>new task</h2>
-<form action="/send" method="POST">
-    Task: <br>
-    <textarea name="task" rows="3" cols="40"></textarea>
-    <br>
-    <input type="submit" value="Send">
-    </form>
+{% block title %}Register{% endblock %}
+{% block content %}
+<h2>Register</h2>
+
+<form action="/register" method="POST">
+<p>Tunnus:<br>
+<input type="text" name="username"></p>
+<p>Salasana:<br>
+<input type="password" name="password"></p>
+<input type="submit" value="register">
+</form>
+<a href="/index" >Login</a>
+
 {% endblock %}
