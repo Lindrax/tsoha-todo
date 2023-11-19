@@ -9,7 +9,6 @@ class user_services():
 
     @staticmethod
     def create_user(name, password):
-        
         hash_value=generate_password_hash(password)
         sql="insert into users (name, password) values(:name, :password)"
         db.session.execute(text(sql), {"name":name, "password":hash_value})
@@ -17,9 +16,11 @@ class user_services():
             
     @staticmethod
     def get_tasks(user_id):
-        sql="SELECT task FROM tasks where user_id=:user_id"
+        sql="SELECT task, done, id FROM tasks where user_id=:user_id and done = 'n'"
         result = db.session.execute(text(sql), {"user_id":user_id}).fetchall()
-        return result
+        sql2="SELECT task, done, id FROM tasks where user_id=:user_id and done = 'y'"
+        result2 = db.session.execute(text(sql2), {"user_id":user_id}).fetchall()
+        return (result, result2)
 
     @staticmethod
     def get_id(name):
@@ -49,7 +50,24 @@ class user_services():
             sql="insert into tasks (task, user_id) values (:task, :user_id)"
             db.session.execute(text(sql), {"task":task, "user_id":user_id})
             db.session.commit()
-        
         except:
             return False
-#todo tietokantakomennot
+        
+    @staticmethod
+    def mark(task, user_id):
+        try:
+            sql="update tasks set done = ('y') where task=:task and user_id=:user_id"
+            db.session.execute(text(sql), {"task":task, "user_id":user_id})
+            db.session.commit()
+        except:
+            pass
+
+    @staticmethod
+    def reset(user_id):
+        try:
+            sql="delete from tasks where user_id=:user_id"
+            db.session.execute(text(sql), {"user_id":user_id})
+            db.session.commit()
+        except:
+            pass
+

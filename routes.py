@@ -1,11 +1,8 @@
-
 from flask import render_template, request, redirect, session
 from app import app
 from user_services import user_services
 from db import db
 from sqlalchemy.sql import text
-
-
 
 @app.route("/")
 def index():
@@ -48,8 +45,10 @@ def logout():
 @app.route("/user")
 def user():
     try:
-        tasks = user_services.get_tasks(session["id"])
-        return render_template("user.html", tasks=tasks)
+        result = user_services.get_tasks(session["id"])
+        tasks=result[0]
+        tasks2=result[1]
+        return render_template("user.html", tasks=tasks, tasks2=tasks2)
     except:
         return render_template("index.html")
 
@@ -65,6 +64,19 @@ def task():
         return redirect("/user")
     except:
         return redirect("/user")
+
+@app.route("/mark", methods=["POST"])
+def mark():
+    task=request.form["task"]
+    user_services.mark(task, session["id"])
+    return redirect("/user")
+
+@app.route("/reset")
+def reset():
+    user_services.reset(session["id"])
+    return redirect("/user")
+
+
 
 
 

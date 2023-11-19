@@ -1,13 +1,14 @@
 <title>Axelin - {% block title %}{% endblock %}</title>
-<h1>Axelin sovellus</h1>
+<h1>To do</h1>
 <a href="/">Start</a>
 {% if session.username %}
 <a href="/user">User</a>
-<a href="/add">New task</a>
+
 {%endif%}
 <hr>
 {% block content %}{% endblock %}
 <hr>
 {% if session.username %}
 <a href="/logout">Logout</a>
+<a href="/reset">Reset tasks</a>
 {%endif%}
