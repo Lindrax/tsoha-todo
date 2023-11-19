@@ -11,9 +11,20 @@ from sqlalchemy.sql import text
 def index():
     return render_template("index.html")
 
-@app.route("/login")
+@app.route("/login", methods=["POST"])
 def login():
-    return render_template("login.html")
+    username = request.form["username"]
+    password = request.form["password"]
+    if user_services.check_user(username,password):
+        session["username"] = username
+        return redirect("/")
+    else:
+        return redirect("/")
+    
+@app.route("/logout")
+def logout():
+    del session["username"]
+    return redirect("/")
 
 @app.route("/user")
 def user():
