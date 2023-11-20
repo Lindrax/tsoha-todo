@@ -24,12 +24,10 @@ class user_services():
 
     @staticmethod
     def get_id(name):
-        try:
-            sql="select id from users where name=:name"
-            result = db.session.execute(text(sql), {"name":name}).fetchone()
-            return result[0]
-        except:
-            return []
+        sql="select id from users where name=:name"
+        result = db.session.execute(text(sql), {"name":name}).fetchone()
+        return result[0]
+      
 
     @staticmethod
     def check_user(user, password):
@@ -46,28 +44,24 @@ class user_services():
             
     @staticmethod
     def add_task(task, user_id):
-        try:
-            sql="insert into tasks (task, user_id) values (:task, :user_id)"
-            db.session.execute(text(sql), {"task":task, "user_id":user_id})
-            db.session.commit()
-        except:
-            return False
-        
+       
+        sql="insert into tasks (task, user_id) values (:task, :user_id)"
+        db.session.execute(text(sql), {"task":task, "user_id":user_id})
+        db.session.commit()
+    
+    
     @staticmethod
     def mark(task, user_id):
-        try:
-            sql="update tasks set done = ('y') where task=:task and user_id=:user_id"
-            db.session.execute(text(sql), {"task":task, "user_id":user_id})
-            db.session.commit()
-        except:
-            pass
+        sql="update tasks set done = ('y') where task=:task and user_id=:user_id"
+        db.session.execute(text(sql), {"task":task, "user_id":user_id})
+        db.session.commit()
+    
 
     @staticmethod
     def reset(user_id):
-        try:
-            sql="delete from tasks where user_id=:user_id"
-            db.session.execute(text(sql), {"user_id":user_id})
-            db.session.commit()
-        except:
-            pass
+     
+        sql="delete from tasks where user_id=:user_id"
+        db.session.execute(text(sql), {"user_id":user_id})
+        db.session.commit()
+    
 
