@@ -60,6 +60,7 @@ def user():
         tasks2=result[1]
         return render_template("user.html", tasks=tasks, tasks2=tasks2)
     except:
+        flash("error")
         return render_template("index.html")
 
 @app.route("/add")
@@ -78,6 +79,7 @@ def task():
 @app.route("/mark", methods=["POST"])
 def mark():
     task=request.form["task"]
+    print(task)
     user_services.mark(task, session["id"])
     return redirect("/user")
 
@@ -85,7 +87,6 @@ def mark():
 def reset():
     user_services.reset(session["id"])
     return redirect("/user")
-
 
 
 
