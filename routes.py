@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, session
+from flask import render_template, request, redirect, session,flash
 from app import app
 from user_services import user_services
 from db import db
@@ -27,11 +27,21 @@ def new():
 def register():
     username = request.form["username"]
     password = request.form["password"]
-    try:
-        user_services.create_user(username,password)
+    x = user_services.create_user(username,password)
+    if x == 1:
+        flash("invalid password")
+        return redirect("/new")
+    if x == 2:
+        flash("invalid username")
+        return redirect("/new")
+    if x == 3:
+        flash("username taken")
+        return redirect("/new")
+    else:
+        flash("succesfully registered")
         return redirect("/")
-    except:
-        return redirect("/register")
+
+   
     
 @app.route("/logout")
 def logout():

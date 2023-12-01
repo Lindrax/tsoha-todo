@@ -9,6 +9,19 @@ CREATE TABLE users (id serial primary key,
 CREATE TABLE tasks (id serial primary key,
  task text,
   user_id int,
-   done text DEFAULT 'n');
+   done BOOL DEFAULT FALSE,
+    time text);
+
+CREATE TABLE done (id serial PRIMARY KEY,
+ task_id int,
+  user_id int,
+   time text);
+
+CREATE TABLE deadlines (id serial PRIMARY KEY,
+  task_id int,
+    user_id int,
+      dl text);
+  
+
 
 
