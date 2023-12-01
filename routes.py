@@ -6,7 +6,10 @@ from sqlalchemy.sql import text
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    result = user_services.get_tasks(session["id"])
+    x= len(result[0])
+    y= len(result[1])
+    return render_template("index.html", x=x,y=y)
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -57,7 +60,7 @@ def user():
     try:
         result = user_services.get_tasks(session["id"])
         tasks=result[0]
-        tasks2=result[1]
+        tasks2=result[1][-5:]
         return render_template("user.html", tasks=tasks, tasks2=tasks2)
     except:
         flash("error")
@@ -89,7 +92,12 @@ def reset():
     user_services.reset(session["id"])
     return redirect("/user")
 
-
+@app.route("/done")
+def done():
+    result = user_services.get_tasks(session["id"])
+    tasks=result[1]
+  
+    return render_template("done.html", tasks=tasks)
 
 
 

@@ -10,6 +10,7 @@
     {%endwith%}
 {% if session.username %}
 <p>Logged in as {{ session.username }}</p>
+<p>You have {{ x }} tasks, You have completed {{ y }} tasks</p>
 {% else %}
 <h2>Sign in</h2>
 <form action="/login" method="POST">
