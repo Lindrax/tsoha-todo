@@ -78,9 +78,10 @@ def task():
 
 @app.route("/mark", methods=["POST"])
 def mark():
-    task=request.form["task"]
+    task=request.form.getlist("task")
     print(task)
-    user_services.mark(task, session["id"])
+    for i in task:
+        user_services.mark(i, session["id"])
     return redirect("/user")
 
 @app.route("/reset")
