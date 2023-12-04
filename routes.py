@@ -6,10 +6,13 @@ from sqlalchemy.sql import text
 
 @app.route("/")
 def index():
-    result = user_services.get_tasks(session["id"])
-    x= len(result[0])
-    y= len(result[1])
-    return render_template("index.html", x=x,y=y)
+    try:
+        result = user_services.get_tasks(session["id"])
+        x= len(result[0])
+        y= len(result[1])
+        return render_template("index.html", x=x,y=y)
+    except:
+        return render_template("index.html")
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -82,7 +85,7 @@ def task():
 @app.route("/mark", methods=["POST"])
 def mark():
     task=request.form.getlist("task")
-    print(task)
+   
     for i in task:
         user_services.mark(i, session["id"])
     return redirect("/user")
@@ -96,10 +99,11 @@ def reset():
 def done():
     result = user_services.get_tasks(session["id"])
     tasks=result[1]
-  
     return render_template("done.html", tasks=tasks)
 
-
-
-
-
+@app.route("/delete", methods=["POST"])
+def delete():
+    task=request.form.getlist("task")
+    for i in task:
+        user_services.delete(i, session["id"])
+    return redirect("/done")

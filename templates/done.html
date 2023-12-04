@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Completed tasks</h2>
+
+
+
+
+<form action="/delete" method ="POST">
+<table border="1">
+    <td> Task</td>
+    <td> Delete</td>
+    {%for task in tasks %}
+    
+    <tr>
+        <td>{{ task.task }}</td>
+        <td> <input type="checkbox" id="lol" name="task" value="{{task.task}}"/>
+    </tr>
+    {%endfor%}
+</table>
+
+<button type="submit">submit</button>
+<a href="/reset">Reset tasks</a>
+</form>
+{% endblock %}

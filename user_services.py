@@ -33,9 +33,9 @@ class user_services():
             
     @staticmethod
     def get_tasks(user_id):
-        sql="SELECT task, done, id FROM tasks where user_id=:user_id and done is FALSE"
+        sql="SELECT task, done, id FROM tasks where user_id=:user_id and done is FALSE and del is false"
         result = db.session.execute(text(sql), {"user_id":user_id}).fetchall()
-        sql2="SELECT task, done, id FROM tasks where user_id=:user_id and done is true"
+        sql2="SELECT task, done, id FROM tasks where user_id=:user_id and done is true and del is false"
         result2 = db.session.execute(text(sql2), {"user_id":user_id}).fetchall()
         return (result, result2)
 
@@ -78,5 +78,10 @@ class user_services():
         sql="delete from tasks where user_id=:user_id"
         db.session.execute(text(sql), {"user_id":user_id})
         db.session.commit()
-    
 
+    @staticmethod
+    def delete(task, user_id):
+        sql="update tasks set del = (TRUE) where task=:task and user_id=:user_id"
+        db.session.execute(text(sql), {"task":task, "user_id":user_id})
+        db.session.commit()
+    
