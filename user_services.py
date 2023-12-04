@@ -63,16 +63,20 @@ class user_services():
     @staticmethod
     def add_task(task, user_id, cat, deadline):
         atm=datetime.date.today()
-        
-        sql="insert into tasks (task, user_id, time, category, deadline) values (:task, :user_id, :atm, :cat, :deadline)"
-        db.session.execute(text(sql), {"task":task, "user_id":user_id, "atm":atm, "cat":cat, "deadline":deadline})
+        sql2="select color from categories where category =:cat"
+        col=db.session.execute(text(sql2), {"cat":cat}).fetchone()[0]
+        sql="insert into tasks (task, user_id, time, category, deadline, col) values (:task, :user_id, :atm, :cat, :deadline, :col)"
+        db.session.execute(text(sql), {"task":task, "user_id":user_id, "atm":atm, "cat":cat, "deadline":deadline, "col":col})
         db.session.commit()
     
     
     @staticmethod
     def mark(task, user_id):
+        t=datetime.date.today()
         sql="update tasks set done = (TRUE) where task=:task and user_id=:user_id"
+        sql2="insert into done (task, user_id, time) values (:task, :user_id, :t)"
         db.session.execute(text(sql), {"task":task, "user_id":user_id})
+        db.session.execute(text(sql2), {"task":task, "user_id":user_id, "t":t})
         db.session.commit()
     
 
@@ -87,4 +91,15 @@ class user_services():
         sql="update tasks set del = (TRUE) where task=:task and user_id=:user_id"
         db.session.execute(text(sql), {"task":task, "user_id":user_id})
         db.session.commit()
+
+    @staticmethod
+    def get_cats(user_id):
+        sql="select * from categories where user_id=:user_id"
+        result = db.session.execute(text(sql), {"user_id":user_id}).fetchall()
+        return result
     
+    @staticmethod
+    def add_cat(category, user_id, color):
+        sql="insert into categories (category, user_id, color) values ( :category, :user_id, :color)"
+        db.session.execute(text(sql), {"category":category, "user_id":user_id, "color":color})
+        db.session.commit()

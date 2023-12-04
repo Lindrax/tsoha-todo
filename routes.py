@@ -61,12 +61,13 @@ def logout():
 
 @app.route("/user")
 def user():
-    try:
+    #try:
         result = user_services.get_tasks(session["id"])
         tasks=result[0]
         tasks2=result[1][-5:]
-        return render_template("user.html", tasks=tasks, tasks2=tasks2)
-    except:
+        cats = user_services.get_cats(session["id"])
+        return render_template("user.html", tasks=tasks, tasks2=tasks2, cats =cats)
+    #except:
         flash("error")
         return render_template("index.html")
 
@@ -118,3 +119,15 @@ def delete():
     for i in task:
         user_services.delete(i, session["id"])
     return redirect("/done")
+
+@app.route("/newcat")
+def newcat():
+    return render_template("newcat.html")
+
+@app.route("/addcat", methods=["POST"])
+def addcat():
+    cat=request.form["category"]
+    col=request.form["color"]
+    user_services.add_cat(cat, session["id"], col)
+    return redirect("/user")
+

@@ -7,11 +7,17 @@
     
     <p4>Choose a category</p4>
   
-        <input type="checkbox" id="home" name="category" value="home"/>
-        <label> Home</label>
+        <select name="category">
+            <option value="home">Home</option>
+            <option value="school">School</option>
+            
+            {%for cat in cats%}
+            <option value = "{{ cat.category }}">{{ cat.category }}</option>
+            {%endfor%}
+        </select>
+        <a href="/newcat">New category</a>
     <label>
-    <input type="checkbox" id="school" name="category" value="school"/>
-     School </label>
+   
     <br>
     <p4> Add a deadline:</p4>
     <br>
@@ -35,9 +41,12 @@
 
     {% if  task.category == "home" %}
         <tr style="background-color:#63A6DF">
-    {% else %}
+    {% elif  task.category == "school" %}
         <tr style="background-color:#E94E35">
+    {%else%}
+        <tr style="background-color: {{ task.col }}"   >
     {% endif %}
+   
         <td>{{ task.task }}</td>
         
         <td> {{ task.category }}</td>

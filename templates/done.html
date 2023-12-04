@@ -8,11 +8,13 @@
 <form action="/delete" method ="POST">
 <table border="1">
     <td> Task</td>
+    <td> Completed</td>
     <td> Delete</td>
     {%for task in tasks %}
     
     <tr>
         <td>{{ task.task }}</td>
+        <td> {{task.time}}</td>
         <td> <input type="checkbox" id="lol" name="task" value="{{task.task}}"/>
     </tr>
     {%endfor%}
