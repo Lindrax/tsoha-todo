@@ -3,6 +3,7 @@ DROP TABLE  if EXISTS tasks CASCADE;
 DROP TABLE  if EXISTS done CASCADE;
 DROP TABLE  if EXISTS categories CASCADE;
 DROP TABLE  if EXISTS calendar CASCADE;
+DROP TABLE  if EXISTS deadlines CASCADE;
 
 
 CREATE TABLE users (id serial primary key,
@@ -17,7 +18,12 @@ CREATE TABLE tasks (id serial primary key,
       time text,
         category text,
         deadline text,
-        col text);
+        col text default '#FFFFFF');
+
+CREATE TABLE deadlines (id serial primary key,
+  task text,
+    user_id int,
+    deadline text);
 
 CREATE TABLE done (id serial PRIMARY KEY,
  task_id int,

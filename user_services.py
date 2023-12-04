@@ -63,10 +63,18 @@ class user_services():
     @staticmethod
     def add_task(task, user_id, cat, deadline):
         atm=datetime.date.today()
-        sql2="select color from categories where category =:cat"
-        col=db.session.execute(text(sql2), {"cat":cat}).fetchone()[0]
-        sql="insert into tasks (task, user_id, time, category, deadline, col) values (:task, :user_id, :atm, :cat, :deadline, :col)"
-        db.session.execute(text(sql), {"task":task, "user_id":user_id, "atm":atm, "cat":cat, "deadline":deadline, "col":col})
+        try:
+            sql2="select color from categories where category =:cat"
+            col=db.session.execute(text(sql2), {"cat":cat}).fetchone()[0]
+        
+            sql="insert into tasks (task, user_id, time, category, deadline, col) values (:task, :user_id, :atm, :cat, :deadline, :col)"
+            db.session.execute(text(sql), {"task":task, "user_id":user_id, "atm":atm, "cat":cat, "deadline":deadline, "col":col})
+        except:
+            sql="insert into tasks (task, user_id, time, category, deadline) values (:task, :user_id, :atm, :cat, :deadline)"
+            db.session.execute(text(sql), {"task":task, "user_id":user_id, "atm":atm, "cat":cat, "deadline":deadline})
+        if deadline !="NULL":
+            sql3="insert into deadlines (task, user_id, deadline) values (:task, :user_id, :deadline)"
+            db.session.execute(text(sql3), {"task":task, "user_id":user_id , "deadline":deadline})
         db.session.commit()
     
     
@@ -103,3 +111,9 @@ class user_services():
         sql="insert into categories (category, user_id, color) values ( :category, :user_id, :color)"
         db.session.execute(text(sql), {"category":category, "user_id":user_id, "color":color})
         db.session.commit()
+
+    @staticmethod
+    def get_ded(user_id):
+        sql="select * from deadlines where user_id=:user_id"
+        result=db.session.execute(text(sql), {"user_id":user_id})
+        return result

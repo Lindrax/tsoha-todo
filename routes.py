@@ -10,7 +10,7 @@ def index():
         result = user_services.get_tasks(session["id"])
         x= len(result[0])
         y= len(result[1])
-        tasks=result[0]
+        tasks=user_services.get_ded(session["id"])
         return render_template("index.html", x=x,y=y, tasks=tasks)
     except:
         return render_template("index.html")
@@ -127,7 +127,9 @@ def newcat():
 @app.route("/addcat", methods=["POST"])
 def addcat():
     cat=request.form["category"]
-    col=request.form["color"]
+    col=request.form["col"]
+    print(col)
+    
     user_services.add_cat(cat, session["id"], col)
     return redirect("/user")
 
