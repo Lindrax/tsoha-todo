@@ -10,7 +10,8 @@ def index():
         result = user_services.get_tasks(session["id"])
         x= len(result[0])
         y= len(result[1])
-        return render_template("index.html", x=x,y=y)
+        tasks=result[0]
+        return render_template("index.html", x=x,y=y, tasks=tasks)
     except:
         return render_template("index.html")
 
@@ -77,15 +78,25 @@ def add():
 def task():
     task=request.form["task"]
     try:
-        user_services.add_task(task, session["id"])
-        return redirect("/user")
+        cat=request.form["category"]
     except:
-        return redirect("/user")
+        cat="NULL"
+    try:
+       deadline=request.form["deadline"]
+    except:
+        deadline="NULL"
+
+    print(cat)
+    #try:
+    user_services.add_task(task, session["id"], cat, deadline)
+    return redirect("/user")
+    #except:
+        #return redirect("/user")
 
 @app.route("/mark", methods=["POST"])
 def mark():
     task=request.form.getlist("task")
-   
+    
     for i in task:
         user_services.mark(i, session["id"])
     return redirect("/user")

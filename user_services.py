@@ -1,7 +1,8 @@
 from db import db
 from sqlalchemy.sql import text
 from werkzeug.security import check_password_hash, generate_password_hash
-
+import datetime
+import time
 
 class user_services():
     def __init__(self):
@@ -33,9 +34,9 @@ class user_services():
             
     @staticmethod
     def get_tasks(user_id):
-        sql="SELECT task, done, id FROM tasks where user_id=:user_id and done is FALSE and del is false"
+        sql="SELECT * FROM tasks where user_id=:user_id and done is FALSE and del is false"
         result = db.session.execute(text(sql), {"user_id":user_id}).fetchall()
-        sql2="SELECT task, done, id FROM tasks where user_id=:user_id and done is true and del is false"
+        sql2="SELECT * FROM tasks where user_id=:user_id and done is true and del is false"
         result2 = db.session.execute(text(sql2), {"user_id":user_id}).fetchall()
         return (result, result2)
 
@@ -60,9 +61,11 @@ class user_services():
                 return False
             
     @staticmethod
-    def add_task(task, user_id):
-        sql="insert into tasks (task, user_id) values (:task, :user_id)"
-        db.session.execute(text(sql), {"task":task, "user_id":user_id})
+    def add_task(task, user_id, cat, deadline):
+        atm=datetime.date.today()
+        
+        sql="insert into tasks (task, user_id, time, category, deadline) values (:task, :user_id, :atm, :cat, :deadline)"
+        db.session.execute(text(sql), {"task":task, "user_id":user_id, "atm":atm, "cat":cat, "deadline":deadline})
         db.session.commit()
     
     

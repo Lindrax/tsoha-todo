@@ -4,17 +4,48 @@
 <form action="/task" method="POST">
     <p>New task:<br>
     <input type="text" name="task"></p>
+    
+    <p4>Choose a category</p4>
+  
+        <input type="checkbox" id="home" name="category" value="home"/>
+        <label> Home</label>
+    <label>
+    <input type="checkbox" id="school" name="category" value="school"/>
+     School </label>
+    <br>
+    <p4> Add a deadline:</p4>
+    <br>
+    <input type="datetime-local" name="deadline"> <br> 
+    <br>
+
+
+
     <input type="submit" value="submit">
     </form>
 <h3>Your tasks</h3>
 <form action="/mark" method ="POST">
 <table border="1">
     <td>Task</td>
+    <td>Category</td>
+    <td>Deadline</td>
     <td>Done</td>
+    
+    <td>Added</td>
     {%for task in tasks%}
-    <tr>
+
+    {% if  task.category == "home" %}
+        <tr style="background-color:#63A6DF">
+    {% else %}
+        <tr style="background-color:#E94E35">
+    {% endif %}
         <td>{{ task.task }}</td>
+        
+        <td> {{ task.category }}</td>
+        <td> {{ task.deadline }}</td>
+        
         <td> <input type="checkbox" id="lol" name="task" value="{{task.task}}"/>
+        
+        <td> {{ task.time }}</td>
     </td>
     </tr>
     {%endfor%}

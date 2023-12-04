@@ -14,7 +14,9 @@ CREATE TABLE tasks (id serial primary key,
   user_id int,
    done BOOL DEFAULT FALSE,
     del BOOL DEFAULT False,
-      time text);
+      time text,
+        category text,
+        deadline text);
 
 CREATE TABLE done (id serial PRIMARY KEY,
  task_id int,

@@ -11,6 +11,21 @@
 {% if session.username %}
 <p>Logged in as {{ session.username }}</p>
 <p>You have {{ x }} tasks, You have completed {{ y }} tasks</p>
+<h3> Shit you gotta do</h3>
+<table border="1">
+    <td>Task</td>
+    <td>Deadline</td>
+    {% for task in tasks %}
+    <tr>
+        <td>{{  task.task}}</td>
+        <td> {{task.deadline}}</td>
+
+    
+    </tr>
+{%endfor%}
+</table>
+
+
 {% else %}
 <h2>Sign in</h2>
 <form action="/login" method="POST">
