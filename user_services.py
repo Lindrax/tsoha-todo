@@ -72,7 +72,7 @@ class user_services():
         except:
             sql="insert into tasks (task, user_id, time, category, deadline) values (:task, :user_id, :atm, :cat, :deadline)"
             db.session.execute(text(sql), {"task":task, "user_id":user_id, "atm":atm, "cat":cat, "deadline":deadline})
-        if deadline !="NULL":
+        if len(deadline) > 2:
             sql3="insert into deadlines (task, user_id, deadline) values (:task, :user_id, :deadline)"
             db.session.execute(text(sql3), {"task":task, "user_id":user_id , "deadline":deadline})
         db.session.commit()

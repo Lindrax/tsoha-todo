@@ -26,7 +26,7 @@ CREATE TABLE deadlines (id serial primary key,
     deadline text);
 
 CREATE TABLE done (id serial PRIMARY KEY,
- task_id int,
+ task text,
   user_id int,
    time text);
 
