@@ -1,6 +1,5 @@
 # Tsoha todo
-(Ei ajan tasalla)
-Tällä hetkellä sovellukseen pystyy luomaan käyttäjän, kirjautumaan, lisäämään tehtäviä ja merkitsemään niitä tehdyiksi sekä resetoimaan omat tehtävät.
+Tällä hetkellä sovellukseen voi rekisteröityä ja kirjautua. lisätä tehtäviä ja valita näille kategorian ja deadlinen. Uusia kategorioita voi tehdä ja näille voi valita värikoodin.
 
 Käynnistysohjeet:
 
