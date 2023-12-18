@@ -93,6 +93,9 @@ class user_services():
         sql="delete from tasks where user_id=:user_id"
         db.session.execute(text(sql), {"user_id":user_id})
         db.session.commit()
+        sql="delete from deadlines where user_id=:user_id"
+        db.session.execute(text(sql), {"user_id":user_id})
+        db.session.commit()
 
     @staticmethod
     def delete(task, user_id):

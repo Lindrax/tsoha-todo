@@ -2,11 +2,14 @@
 {% block content %}
 <h2>Completed tasks</h2>
 
-
-
+<style>
+th, td {
+    padding: 10px;}
+</style>
 
 <form action="/delete" method ="POST">
-<table border="1">
+<table border="1"
+>
     <td> Task</td>
     <td> Completed</td>
     <td> Delete</td>

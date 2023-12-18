@@ -24,7 +24,10 @@
     <input type="datetime-local" name="deadline"> <br> 
     <br>
 
-
+<style>
+    th, td {
+        padding: 10px;}
+</style>
 
     <input type="submit" value="submit">
     </form>
@@ -66,9 +69,12 @@
 
 <h3>Last 5 completed</h3>
 <table border="1">
+    <td> Task</td>
+    <td> Completed</td>
     {%for task in tasks2 %}
     <tr>
         <td>{{ task.task }}</td>
+        <td>{{ task.time }}</td>
     </tr>
     {%endfor%}
 </table>

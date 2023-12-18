@@ -8,10 +8,10 @@ from sqlalchemy.sql import text
 def index():
     try:
         result = user_services.get_tasks(session["id"])
-        x= len(result[0])
-        y= len(result[1])
+        done= len(result[0])
+        undone= len(result[1])
         tasks=user_services.get_ded(session["id"])
-        return render_template("index.html", x=x,y=y, tasks=tasks)
+        return render_template("index.html", x=done,y=undone, tasks=tasks)
     except:
         return render_template("index.html")
 
@@ -24,6 +24,7 @@ def login():
         session["id"] = user_services.get_id(username)
         return redirect("/")
     else:
+        flash("login error")
         return redirect("/")
     
 @app.route("/new")
@@ -34,14 +35,14 @@ def new():
 def register():
     username = request.form["username"]
     password = request.form["password"]
-    x = user_services.create_user(username,password)
-    if x == 1:
+    error = user_services.create_user(username,password)
+    if error == 1:
         flash("invalid password")
         return redirect("/new")
-    if x == 2:
+    if error == 2:
         flash("invalid username")
         return redirect("/new")
-    if x == 3:
+    if error == 3:
         flash("username taken")
         return redirect("/new")
     else:
@@ -61,13 +62,13 @@ def logout():
 
 @app.route("/user")
 def user():
-    #try:
+    try:
         result = user_services.get_tasks(session["id"])
         tasks=result[0]
         tasks2=result[1][-5:]
         cats = user_services.get_cats(session["id"])
         return render_template("user.html", tasks=tasks, tasks2=tasks2, cats =cats)
-    #except:
+    except:
         flash("error")
         return render_template("index.html")
 
@@ -87,17 +88,13 @@ def task():
     except:
         deadline="NULL"
 
-    print(cat)
-    #try:
     user_services.add_task(task, session["id"], cat, deadline)
     return redirect("/user")
-    #except:
-        #return redirect("/user")
+    
 
 @app.route("/mark", methods=["POST"])
 def mark():
     task=request.form.getlist("task")
-    
     for i in task:
         user_services.mark(i, session["id"])
     return redirect("/user")
@@ -128,8 +125,6 @@ def newcat():
 def addcat():
     cat=request.form["category"]
     col=request.form["col"]
-    print(col)
-    
     user_services.add_cat(cat, session["id"], col)
     return redirect("/user")
 
