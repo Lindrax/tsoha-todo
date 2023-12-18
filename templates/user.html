@@ -28,7 +28,7 @@
     th, td {
         padding: 10px;}
 </style>
-
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="submit">
     </form>
 <h3>Your tasks</h3>
@@ -63,6 +63,7 @@
     {%endfor%}
 </table>
 <button type="submit">mark as done</button>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 
 
@@ -79,10 +80,6 @@
     {%endfor%}
 </table>
 <a href="/done">Show all</a>
-
-
-
-
 
 
 <a href="/reset">Reset tasks</a>

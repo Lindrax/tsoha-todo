@@ -16,6 +16,7 @@
 <p>Password:<br>
 <input type="password" name="password"></p>
 <input type="submit" value="register">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 <a href="/" >Login</a>
 

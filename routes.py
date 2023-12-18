@@ -3,6 +3,7 @@ from app import app
 from user_services import user_services
 from db import db
 from sqlalchemy.sql import text
+import secrets
 
 @app.route("/")
 def index():
@@ -22,6 +23,7 @@ def login():
     if user_services.check_user(username,password):
         session["username"] = username
         session["id"] = user_services.get_id(username)
+        session["csrf_token"] = secrets.token_hex(16)
         return redirect("/")
     else:
         flash("login error")
@@ -50,7 +52,6 @@ def register():
         return redirect("/")
 
    
-    
 @app.route("/logout")
 def logout():
     try:
@@ -78,6 +79,9 @@ def add():
 
 @app.route("/task", methods = ["POST"])
 def task():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        flash("abort(403)")
+
     task=request.form["task"]
     try:
         cat=request.form["category"]
